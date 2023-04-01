@@ -11,8 +11,7 @@ inputs:
     required: true
   package-manager:
     description: "package manager to use"
-    required: true
-    default: "yarn"
+    default: ""
 
 runs:
   using: "composite"

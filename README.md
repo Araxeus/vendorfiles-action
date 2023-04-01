@@ -13,9 +13,9 @@
 
 ## Inputs
 
-* `token` - **Required**. GitHub token for the repository.
+* `token` [**Required**] GitHub token for the repository.
 
-* `package-manager` - **Required**. command to run before `vendor` command. For example, `yarn` or `npm run`.
+* `package-manager` [Optional] command to run before `vendor` command. For example, `yarn` or `npm run`. (default: none)
 
 ## Full example
 

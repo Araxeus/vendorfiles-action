@@ -6,7 +6,7 @@
 
 ```yaml
 - uses: Araxeus/vendorfiles-action@v1
-    with:
+  with:
     token: ${{ secrets.GITHUB_TOKEN }}
     package-manager: yarn
 ```
@@ -21,23 +21,20 @@
 
 ```yaml
 name: Dependency Updater
-
 on:
-    schedule:
-        # every day at 07:33
-        - cron: '33 7 * * *'
-    workflow_dispatch: null # allow manual trigger
-
+  schedule:
+    - cron: 33 7 * * * # every day at 07:33
+  workflow_dispatch: null # allow manual trigger
 jobs:
-    update-vendors:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Yarn PnP Setup
-              uses: Araxeus/setup-yarn-pnp-action@v1
+  update-vendors:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Yarn PnP Setup
+        uses: Araxeus/setup-yarn-pnp-action@v1
 
-            - name: Run vendor update
-              uses: Araxeus/vendorfiles-action@v1
-              with:
-                  token: ${{ secrets.GITHUB_TOKEN }}
-                  package-manager: yarn
+      - name: Run vendor update
+        uses: Araxeus/vendorfiles-action@v1
+        with:
+          token: '${{ secrets.GITHUB_TOKEN }}'
+          package-manager: yarn
 ```

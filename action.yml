@@ -29,7 +29,7 @@ runs:
 
     - name: Show PR body
       shell: bash
-      run: echo '${{ steps.vendor.outputs.PR_BODY}}\n\n>This PR was generated using [vendorfiles](https://www.github.com/Araxeus/vendorfiles)'
+      run: echo '${{ steps.vendor.outputs.PR_BODY}}'
 
     - name: Show git status
       shell: bash
@@ -40,6 +40,14 @@ runs:
       shell: bash
       run: exit 1
 
+    - name: create pull request footer
+      id: footer
+      shell: bash
+      run: |
+        echo "PR_FOOTER<<EOF" >> $GITHUB_OUTPUT
+        echo -e "\n\n>"'This PR was generated using [vendorfiles](https://www.github.com/Araxeus/vendorfiles)' >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
     - name: Create Pull Request
       if: steps.vendor.outputs.PR_BODY != 0
       uses: peter-evans/create-pull-request@v4
@@ -49,7 +57,7 @@ runs:
         author: "vendorfiles[bot] <vendorfiles[bot]@users.noreply.github.com>"
         branch: bump-vendors
         title: "[vendorfiles] Bump vendors"
-        body: '${{ steps.vendor.outputs.PR_BODY}}\n\n>This PR was generated using [vendorfiles](https://www.github.com/Araxeus/vendorfiles)'
+        body: ${{ steps.vendor.outputs.PR_BODY}}${{ steps.footer.outputs.PR_FOOTER}}
         delete-branch: true
         labels: dependencies
         reviewers: ${{ github.repository_owner }}

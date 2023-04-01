@@ -61,5 +61,5 @@ runs:
         delete-branch: true
         labels: dependencies
         reviewers: ${{ github.repository_owner }}
-        assignees: ${{ github.repository_owner }}
+        # assignees: ${{ github.repository_owner }}
         token: ${{ inputs.token }}

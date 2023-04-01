@@ -45,8 +45,8 @@ runs:
       uses: peter-evans/create-pull-request@v4
       with:
         commit-message: "[vendorfiles] Bump vendors"
-        committer: "vendorfiles[bot]"
-        author: "vendorfiles[bot]"
+        committer: "vendorfiles[bot] <vendorfiles[bot]@users.noreply.github.com>"
+        author: "vendorfiles[bot] <vendorfiles[bot]@users.noreply.github.com>"
         branch: bump-vendors
         title: "[vendorfiles] Bump vendors"
         body: '${{ steps.vendor.outputs.PR_BODY}}\n\n>This PR was generated using [vendorfiles](https://www.github.com/Araxeus/vendorfiles)'

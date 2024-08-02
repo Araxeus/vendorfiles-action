@@ -12,6 +12,10 @@ inputs:
   package-manager:
     description: "package manager to use"
     default: ""
+  before-pr-command:
+    description: "command to run before creating the PR"
+    required: false
+    default: ""
 
 runs:
   using: "composite"
@@ -38,6 +42,11 @@ runs:
       if: startsWith(steps.vendor.outputs.PR_BODY, 'ERROR:')
       shell: bash
       run: exit 1
+
+    - name: Run before-pr-command
+      if: ${{ inputs.before-pr-command != '' }}
+      shell: bash
+      run: ${{ inputs.before-pr-command }}
 
     - name: create pull request footer
       id: footer

@@ -17,6 +17,8 @@
 
 * `package-manager` [Optional] command to run before `vendor` command. For example, `yarn` or `npm run`. (default: none)
 
+* `before-pr-command` [Optional] command to run before creating a PR. (default: none)
+
 ## Full example
 
 ```yaml

@@ -17,6 +17,8 @@
 
 * `package-manager` [Optional] command to run before `vendor` command. For example, `yarn` or `npm run`. (default: none)
 
+* `config` [Optional] path to the vendor config file or folder containing the config file. Adds `--config <path>` to the vendor update command. (default: none)
+
 * `before-pr-command` [Optional] command to run before creating a PR. (default: none)
 
 ## Full example

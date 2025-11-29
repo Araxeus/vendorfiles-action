@@ -1,30 +1,39 @@
-name: "Vendorfiles Updater"
-description: "Update vendorfiles for a project"
-author: "Araxeus"
+name: 'Vendorfiles Updater'
+description: 'Update vendorfiles for a project'
+author: 'Araxeus'
 branding:
-  icon: "box"
-  color: "yellow"
+  icon: 'box'
+  color: 'yellow'
 
 inputs:
   token:
-    description: "github token to circumvent rate limits"
+    description: 'github token to circumvent rate limits'
     required: true
   package-manager:
-    description: "package manager to use"
-    default: ""
+    description: 'package manager to use'
+    default: ''
   before-pr-command:
-    description: "command to run before creating the PR"
+    description: 'command to run before creating the PR'
     required: false
-    default: ""
+    default: ''
+  config:
+    description: 'Path to the vendor configuration file'
+    required: false
+    default: ''
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - name: Run vendor update
       id: vendor
       run: |
         echo "PR_BODY<<EOF" >> $GITHUB_OUTPUT
-        echo "$(${{ inputs.package-manager }} vendor update --pr)" >> $GITHUB_OUTPUT
+        # Build the command in bash so we can safely include --config when provided
+        cmd=( ${{ inputs.package-manager }} vendor update --pr )
+        if [ -n "${{ inputs.config }}" ]; then
+          cmd+=( --config "${{ inputs.config }}" )
+        fi
+        echo "$("${cmd[@]}")" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
       shell: bash
       env:
@@ -60,11 +69,11 @@ runs:
       if: steps.vendor.outputs.PR_BODY != 0
       uses: peter-evans/create-pull-request@v7
       with:
-        commit-message: "[vendorfiles] Bump vendors"
-        committer: "vendorfiles[bot] <vendorfiles[bot]@users.noreply.github.com>"
-        author: "vendorfiles[bot] <vendorfiles[bot]@users.noreply.github.com>"
+        commit-message: '[vendorfiles] Bump vendors'
+        committer: 'vendorfiles[bot] <vendorfiles[bot]@users.noreply.github.com>'
+        author: 'vendorfiles[bot] <vendorfiles[bot]@users.noreply.github.com>'
         branch: bump-vendors
-        title: "[vendorfiles] Bump vendors"
+        title: '[vendorfiles] Bump vendors'
         body: ${{ steps.vendor.outputs.PR_BODY}}${{ steps.footer.outputs.PR_FOOTER}}
         delete-branch: true
         labels: dependencies

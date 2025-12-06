@@ -25,20 +25,25 @@
 
 ```yaml
 name: Dependency Updater
+
+permissions:
+  contents: read
+  pull-requests: write
+
 on:
   schedule:
     - cron: 33 7 * * * # every day at 07:33
   workflow_dispatch: null # allow manual trigger
+
 jobs:
   update-vendors:
     runs-on: ubuntu-latest
     steps:
-      - name: Yarn PnP Setup
-        uses: Araxeus/setup-yarn-pnp-action@v1
+      - run: bun install
 
       - name: Run vendor update
         uses: Araxeus/vendorfiles-action@v1
         with:
           token: '${{ secrets.GITHUB_TOKEN }}'
-          package-manager: yarn
+          package-manager: bun
 ```

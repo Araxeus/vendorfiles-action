@@ -27,7 +27,7 @@
 name: Dependency Updater
 
 permissions:
-  contents: read
+  contents: write
   pull-requests: write
 
 on:
